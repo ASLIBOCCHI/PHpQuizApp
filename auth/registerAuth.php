@@ -1,12 +1,12 @@
 <?php
 session_start(); //start session
 require '../config/database.php'; //ini buat nunjukin kalau perlu connect database dulu
-$id = $_POST["username"];
+$id = htmlspecialchars($_POST["username"]); //menggunakan htmlspecialchars untuk menghindari XSS
 $plaintextPassword = $_POST["password"];
 $password = password_hash($plaintextPassword, PASSWORD_BCRYPT);
-$name = $_POST["name"];
-$major = $_POST["major"];
-$batch = $_POST["batch"];
+$name = htmlspecialchars($_POST["name"]);
+$major = htmlspecialchars($_POST["major"]);
+$batch = htmlspecialchars($_POST["batch"]);
 if(strlen($id) !== 4 || $id[0] !== 'T' || !ctype_digit(substr($id, 1))){
     $_SESSION['error'] = "Invalid ID format. Must be 'T' followed by 3 digits (e.g., T001).";
     header("Location: ../register.php");
